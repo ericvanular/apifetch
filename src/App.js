@@ -22,7 +22,7 @@ class App extends Component {
     fetch(`https://www.reddit.com/r/${this.state.subreddit}.json`)
     .then(response => {return response.json()})
     .then(json => {
-      return this.setState({ posts: json.data.children.map(child => child.data.title)  })
+      return this.setState({ posts: json.data.children.map(child => child.data)  })
     })
     .catch(error => {throw error});
     this.setState({
@@ -31,8 +31,9 @@ class App extends Component {
   }
   render() {
     return (
-      <div style={{margin: '10', padding: '10'}}>
+      <div style={{margin: 10, padding: 10}}>
           <h2>Welcome to the Reddit API Fetch machine</h2>
+          <span>To get started, type in a subreddit name (i.e. worldnews, hockey, etc).</span>
           <hr/>
           <form>
             <input
@@ -48,8 +49,8 @@ class App extends Component {
           <ul>
             {this.state.posts.length ?
               this.state.posts.map((post,i) =>
-              <li key={i}><a href={`${post}`}>{post}</a></li> ) :
-              <span>No posts here yet! <br/><br/> To get started, type in a subreddit name.</span>
+              <li key={i}><a href={`${post.url}`}>{post.title}</a></li> ) :
+              <span>No posts here yet!</span>
             }
           </ul>
           <hr/>
